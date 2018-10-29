@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+
+<h:head>
+    <title>User management system</title>
+    <h:outputStylesheet name="css/index.css" />
+</h:head>
+
+<h:body>
+    <f:view>
+        <div id="login">
+            <h:outputText id="loginFailed" value="#{userController.getLoginFailedMessage()}" styleClass="error"/>
+
+            <h:outputText value ="#{redirectController.errorMessage}" styleClass="error"/>
+
+            <h:outputText value ="#{redirectController.successMessage}" styleClass="success"/>
+
+            <form id="login_form" action="#{redirectController.setErrorMessage('')} #{redirectController.setSuccessMessage('')} #{request.contextPath}/login" method="post">
+
+                <span class="fontawesome-user"></span>
+
+                <input
+                        type="text" id="username" name="username" class="ui-corner-all"
+                        required="required" placeholder="username"/>
+
+                <span class="fontawesome-lock"></span>
+
+                <input type="password" id="password" name="password"
+                       class="ui-corner-all" required="required" placeholder="password"/>
+
+                <input type="submit" value="Log in"/>
+            </form>
+        </div>
+
+        <div id="registration">
+            <h:form id="registration_form">
+                <p:commandButton value="Sign up"
+                                 actionListener="#{registrationController.addClient()}"
+                                 process="@form" styleClass="signUp"/>
+            </h:form>
+        </div>
+
+
+    <p:dialog id="dialogRequest" header="Registration" widgetVar="dialogRequest" resizable="false"
+              modal="true"
+              showEffect="fade"
+              closeOnEscape="true"
+    >
+        <h:form id="dialogRequestForm">
+            <div class="popup-info">
+                <div class="ava-info no-border">
+
+                    <div class="block">
+                        <h:outputText value="Name"/>
+                        <div class="ava-form">
+                            <p:inputText id="name" value="#{registrationController.client.name}" required="true" requiredMessage="Fill name" />
+                        </div>
+                    </div>
+
+                    <div class="block">
+                        <p></p>
+                        <h:outputText value="Password"/>
+                        <div class="ava-form">
+                            <p:password  value="#{registrationController.client.password}" requiredMessage="Fill password"/>
+                        </div>
+                    </div>
+
+                    <div class="block">
+                        <div class="ava-form">
+                            <p:commandButton value="Sign up"
+                                             actionListener="#{registrationController.save}"
+                                             update="@([id$=requestList])"
+                                             process="@form" style="margin-left: 27%; margin-top: 7%" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </h:form>
+    </p:dialog>
+    </f:view>
+</h:body>
+</html>
